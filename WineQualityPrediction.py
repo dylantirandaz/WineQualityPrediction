@@ -2,6 +2,9 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+%matplotlib inline
+import time
+import random
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
@@ -17,14 +20,22 @@ print(wine.head())
 print(wine.describe())
 print(wine.info())
 
+plt.figure(figsize=(10, 6))
 sns.countplot(wine['quality'])
+plt.title('Distribution of Wine Quality')
+plt.xlabel('Quality')
+plt.ylabel('Count')
 plt.show()
 
+plt.figure(figsize=(12, 10))
 sns.pairplot(wine)
+plt.title('Pairplot of Wine Quality Dataset')
 plt.show()
 
+plt.figure(figsize=(12, 10))
 corr = wine.corr()
-sns.heatmap(corr, annot=True, cmap='coolwarm')
+sns.heatmap(corr, annot=True, cmap='coolwarm', square=True)
+plt.title('Correlation Matrix')
 plt.show()
 
 # Feature engineering and preprocessing
@@ -66,6 +77,14 @@ for model in models:
 # Model optimization and selection
 results_df = pd.DataFrame(results, columns=['Model', 'Accuracy', 'Precision', 'Recall', 'F1 Score'])
 print(results_df)
+
+plt.figure(figsize=(10, 6))
+sns.barplot(x='Model', y='Accuracy', data=results_df)
+plt.title('Model Accuracy Comparison')
+plt.xlabel('Model')
+plt.ylabel('Accuracy')
+plt.xticks(rotation=45)
+plt.show()
 
 best_model = models[results_df['Accuracy'].idxmax()]
 print("Best Model:", best_model.__class__.__name__)
